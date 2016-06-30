@@ -7,29 +7,29 @@
 #define NAT_DIR_MAX 2
 #define NAT_TABLE_SIZE 65535
 
-#define ETHALEN 14 //MAC³¤¶È£¬ĞèÒªÎªÃ¿¸ö½Úµã´æÈİÆ÷µÄMAC
+#define ETHALEN 14 //MACé•¿åº¦ï¼Œéœ€è¦ä¸ºæ¯ä¸ªèŠ‚ç‚¹å­˜å®¹å™¨çš„MAC
 
-#define DIRECT_IN  0 //¾³ÄÚ·½Ïò
-#define DIRECT_OUT 1 //¾³Íâ·½Ïò
+#define DIRECT_IN  0 //å¢ƒå†…æ–¹å‘
+#define DIRECT_OUT 1 //å¢ƒå¤–æ–¹å‘
 
-/*ÓÃÓÚ±êÖ¾target snatµÄº¯Êı·µ»Ø£¬ÒÑ×ö²»Í¬µÄ´¦Àí*/
+/*ç”¨äºæ ‡å¿—target snatçš„å‡½æ•°è¿”å›ï¼Œå·²åšä¸åŒçš„å¤„ç†*/
 #define FIND_BROTHER 2
 #define FIND_NO_BROTHER 1
 
 struct in4_nat_addr{
 	uint32_t  in4;
 };
-//µ¥Ò»·½ÏòµÄËÄÔª×é
+//å•ä¸€æ–¹å‘çš„å››å…ƒç»„
 struct nat_tuple{
 	struct in4_nat_addr src;
 	struct in4_nat_addr dst;
 	unsigned short sport;
 	unsigned short dport;
 
-	unsigned char nat_mac[ETHALEN];//ĞèÒª´æ´¢MACÖµÓÃÓÚ·¢°üÊ¹ÓÃ
+	unsigned char nat_mac[ETHALEN];//éœ€è¦å­˜å‚¨MACå€¼ç”¨äºå‘åŒ…ä½¿ç”¨
 	
 	unsigned int hashIndex;
-	unsigned int direct; //±ê¼ÇÊÇin»¹ÊÇoutµÄnat¼ÇÂ¼ÓÃÓÚ»Ø°üÊ±ÌîÄÄ¸ömac
+	unsigned int direct; //æ ‡è®°æ˜¯inè¿˜æ˜¯outçš„natè®°å½•ç”¨äºå›åŒ…æ—¶å¡«å“ªä¸ªmac
 	short ip_id;
 	unsigned char tran_proto;
 	struct nat_tuple *next;
@@ -37,10 +37,10 @@ struct nat_tuple{
 	struct ip4_nat_record *me;	
 };
 
-//nat×ª»»¼ÇÂ¼
+//natè½¬æ¢è®°å½•
 struct ip4_nat_record{
 	struct nat_tuple nat_tuple[NAT_DIR_MAX];
-	struct ip4_nat_record *brother; //Ö¸ÏòÁíÒ»¸örecoerdµÄÖ¸Õë
+	struct ip4_nat_record *brother; //æŒ‡å‘å¦ä¸€ä¸ªrecoerdçš„æŒ‡é’ˆ
 	struct timer_list timeout;
 };
 
@@ -48,7 +48,5 @@ struct ip4_nat_record{
 int target_src_nat(struct nat_tuple *tuple,struct nat_tuple *tuple_brother);
 int target_dst_nat(struct nat_tuple *tuple);
 void  print_nat_hash_table(void );
-//#define _DEBUG
 
-#define NUM_NAT_REC 100
 #endif //IP4_NAT_H
